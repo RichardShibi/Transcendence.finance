@@ -9,7 +9,7 @@ import pytest
 from pandas import DataFrame, Timestamp
 from pandas.testing import assert_frame_equal
 
-from freqtrade.configuration import TimeRange
+from freqtrade.configuration.timerange import TimeRange
 from freqtrade.constants import AVAILABLE_DATAHANDLERS
 from freqtrade.data.history.datahandlers.featherdatahandler import FeatherDataHandler
 from freqtrade.data.history.datahandlers.idatahandler import (

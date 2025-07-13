@@ -14,7 +14,7 @@ from pathlib import Path
 from pandas import DataFrame, to_datetime
 
 from freqtrade import misc
-from freqtrade.configuration import TimeRange
+from freqtrade.configuration.timerange import TimeRange
 from freqtrade.constants import DEFAULT_TRADES_COLUMNS, ListPairsWithTimeframes
 from freqtrade.data.converter import (
     clean_ohlcv_dataframe,

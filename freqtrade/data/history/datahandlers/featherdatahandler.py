@@ -2,7 +2,7 @@ import logging
 
 from pandas import DataFrame, read_feather, to_datetime
 
-from freqtrade.configuration import TimeRange
+from freqtrade.configuration.timerange import TimeRange
 from freqtrade.constants import DEFAULT_DATAFRAME_COLUMNS, DEFAULT_TRADES_COLUMNS
 from freqtrade.enums import CandleType, TradingMode
 

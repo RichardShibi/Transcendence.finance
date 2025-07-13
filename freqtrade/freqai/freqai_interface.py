@@ -17,7 +17,7 @@ from numpy.typing import NDArray
 from pandas import DataFrame
 from sklearn.preprocessing import MinMaxScaler
 
-from freqtrade.configuration import TimeRange
+from freqtrade.configuration.timerange import TimeRange
 from freqtrade.constants import DOCS_LINK, Config
 from freqtrade.data.dataprovider import DataProvider
 from freqtrade.enums import RunMode

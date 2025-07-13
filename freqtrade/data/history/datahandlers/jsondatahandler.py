@@ -4,7 +4,7 @@ import numpy as np
 from pandas import DataFrame, read_json, to_datetime
 
 from freqtrade import misc
-from freqtrade.configuration import TimeRange
+from freqtrade.configuration.timerange import TimeRange
 from freqtrade.constants import DEFAULT_DATAFRAME_COLUMNS, DEFAULT_TRADES_COLUMNS
 from freqtrade.data.converter import trades_dict_to_list, trades_list_to_df
 from freqtrade.enums import CandleType, TradingMode

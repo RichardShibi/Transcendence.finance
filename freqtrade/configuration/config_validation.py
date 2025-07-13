@@ -70,7 +70,6 @@ def validate_config_schema(conf: dict[str, Any], preliminary: bool = False) -> d
         raise ValidationError(best_match(Draft4Validator(conf_schema).iter_errors(conf)).message)
 
 
-
 def validate_config_consistency(
     conf: dict[str, Any], *, preliminary: bool = False, strategy: IStrategy | None = None
 ) -> None:
