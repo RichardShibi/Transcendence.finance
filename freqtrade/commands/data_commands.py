@@ -44,7 +44,8 @@ def start_download_data(args: dict[str, Any]) -> None:
 
 
 def start_convert_trades(args: dict[str, Any]) -> None:
-    from freqtrade.configuration import TimeRange, setup_utils_configuration
+    from freqtrade.configuration import setup_utils_configuration
+    from freqtrade.configuration.timerange import TimeRange
     from freqtrade.data.converter import convert_trades_to_ohlcv
     from freqtrade.resolvers import ExchangeResolver
 

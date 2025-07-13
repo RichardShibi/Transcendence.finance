@@ -330,7 +330,7 @@ class FreqtradeBot(LoggingMixin):
 
     def _refresh_active_whitelist(self, trades: list[Trade] | None = None) -> list[str]:
         """
-        Refresh active whitelist from pairlist and extend it with
+        Refresh active whitelist from pairlist and optionally extend it with
         pairs that have open trades.
         """
         # Refresh whitelist
@@ -338,7 +338,7 @@ class FreqtradeBot(LoggingMixin):
         self.pairlists.refresh_pairlist()
         _whitelist = self.pairlists.whitelist
 
-        if trades:
+        if trades and self.config.get("extend_whitelist_with_open_trades", True):
             # Extend active-pair whitelist with pairs of open trades
             # It ensures that candle (OHLCV) data are downloaded for open trades as well
             _whitelist.extend([trade.pair for trade in trades if trade.pair not in _whitelist])

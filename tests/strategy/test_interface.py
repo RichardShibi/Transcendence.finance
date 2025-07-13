@@ -8,7 +8,7 @@ from unittest.mock import MagicMock
 import pytest
 from pandas import DataFrame, concat
 
-from freqtrade.configuration import TimeRange
+from freqtrade.configuration.timerange import TimeRange
 from freqtrade.constants import CUSTOM_TAG_MAX_LENGTH
 from freqtrade.data.dataprovider import DataProvider
 from freqtrade.data.history import load_data

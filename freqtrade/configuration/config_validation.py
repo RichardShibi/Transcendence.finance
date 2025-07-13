@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 import logging
 from collections import Counter
 from copy import deepcopy
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from jsonschema import Draft4Validator, validators
 from jsonschema.exceptions import ValidationError, best_match
@@ -18,7 +20,10 @@ from freqtrade.configuration.deprecated_settings import process_deprecated_setti
 from freqtrade.constants import UNLIMITED_STAKE_AMOUNT
 from freqtrade.enums import RunMode, TradingMode
 from freqtrade.exceptions import ConfigurationError
-from freqtrade.strategy.interface import IStrategy
+
+
+if TYPE_CHECKING:  # pragma: no cover - used for type hints only
+    from freqtrade.strategy.interface import IStrategy
 
 
 logger = logging.getLogger(__name__)
@@ -68,7 +73,6 @@ def validate_config_schema(conf: dict[str, Any], preliminary: bool = False) -> d
     except ValidationError as e:
         logger.critical(f"Invalid configuration. Reason: {e}")
         raise ValidationError(best_match(Draft4Validator(conf_schema).iter_errors(conf)).message)
-
 
 
 def validate_config_consistency(

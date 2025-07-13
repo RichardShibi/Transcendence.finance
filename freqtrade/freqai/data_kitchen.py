@@ -15,7 +15,7 @@ from datasieve.pipeline import Pipeline
 from pandas import DataFrame
 from sklearn.model_selection import train_test_split
 
-from freqtrade.configuration import TimeRange
+from freqtrade.configuration.timerange import TimeRange
 from freqtrade.constants import DOCS_LINK, ORDERFLOW_ADDED_COLUMNS, Config
 from freqtrade.data.converter import reduce_dataframe_footprint
 from freqtrade.exceptions import OperationalException

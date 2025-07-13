@@ -17,7 +17,7 @@ from joblib.externals import cloudpickle
 from numpy.typing import NDArray
 from pandas import DataFrame
 
-from freqtrade.configuration import TimeRange
+from freqtrade.configuration.timerange import TimeRange
 from freqtrade.constants import Config
 from freqtrade.data.history import load_pair_history
 from freqtrade.enums import CandleType

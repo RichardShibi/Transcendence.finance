@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 
 import pytest
 
-from freqtrade.configuration import TimeRange
+from freqtrade.configuration.timerange import TimeRange
 from freqtrade.exceptions import OperationalException
 
 

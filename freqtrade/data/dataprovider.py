@@ -12,7 +12,7 @@ from typing import Any
 
 from pandas import DataFrame, Timedelta, Timestamp, to_timedelta
 
-from freqtrade.configuration import TimeRange
+from freqtrade.configuration.timerange import TimeRange
 from freqtrade.constants import (
     FULL_DATAFRAME_THRESHOLD,
     Config,

@@ -127,6 +127,11 @@
       "description": "Process only new candles.",
       "type": "boolean"
     },
+    "extend_whitelist_with_open_trades": {
+      "description": "Extend pair whitelist with open trades on startup.",
+      "type": "boolean",
+      "default": true
+    },
     "minimal_roi": {
       "description": "Minimum return on investment. \nUsually specified in the strategy and missing in the configuration.",
       "type": "object",

@@ -7,7 +7,7 @@ import pytest
 from plotly.subplots import make_subplots
 
 from freqtrade.commands import start_plot_dataframe, start_plot_profit
-from freqtrade.configuration import TimeRange
+from freqtrade.configuration.timerange import TimeRange
 from freqtrade.data import history
 from freqtrade.data.btanalysis import load_backtest_data
 from freqtrade.data.metrics import create_cum_profit
