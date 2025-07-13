@@ -56,6 +56,7 @@ class IStrategy(ABC, HyperStrategyMixin):
         minimal_roi -> Dict: Minimal ROI designed for the strategy
         stoploss -> float: optimal stoploss designed for the strategy
         timeframe -> str: value of the timeframe to use with the strategy
+        pair_whitelist -> list[str]: list of pairs overriding the configuration
     """
 
     # Strategy interface version
@@ -135,6 +136,8 @@ class IStrategy(ABC, HyperStrategyMixin):
     wallets: Wallets | None = None
     # Filled from configuration
     stake_currency: str
+    # List of pairs this strategy trades. Overrides configuration when not empty
+    pair_whitelist: list[str] = []
     # container variable for strategy source code
     __source__: str = ""
     __file__: str = ""
