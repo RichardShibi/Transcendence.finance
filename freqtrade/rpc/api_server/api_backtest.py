@@ -51,7 +51,7 @@ def __run_backtest_bg(btconfig: Config):
         # Reload strategy
         lastconfig = ApiBG.bt["last_config"]
         strat = StrategyResolver.load_strategy(btconfig)
-        validate_config_consistency(btconfig)
+        validate_config_consistency(btconfig, strategy=strat)
 
         if (
             not ApiBG.bt["bt"]

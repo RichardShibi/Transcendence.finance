@@ -61,7 +61,7 @@ class StaticPairList(IPairList):
         :return: List of pairs
         """
         wl = self.verify_whitelist(
-            self._config["exchange"]["pair_whitelist"], logger.info, keep_invalid=True
+            self._pairlistmanager.pair_whitelist, logger.info, keep_invalid=True
         )
         if self._allow_inactive:
             return wl
@@ -79,7 +79,7 @@ class StaticPairList(IPairList):
         :return: new whitelist
         """
         pairlist_ = deepcopy(pairlist)
-        for pair in self._config["exchange"]["pair_whitelist"]:
+        for pair in self._pairlistmanager.pair_whitelist:
             if pair not in pairlist_:
                 pairlist_.append(pair)
         return pairlist_

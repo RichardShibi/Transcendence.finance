@@ -751,6 +751,22 @@ def test_process_trade_no_whitelist_pair(
     assert len(freqtrade.active_pair_whitelist) == len(set(freqtrade.active_pair_whitelist))
 
 
+def test_strategy_pair_whitelist_override(default_conf_usdt, mocker) -> None:
+    patch_RPCManager(mocker)
+    patch_exchange(mocker)
+    default_conf_usdt["strategy"] = "PairWhitelistStrategy"
+    freqtrade = FreqtradeBot(default_conf_usdt)
+    assert default_conf_usdt["exchange"]["pair_whitelist"] == [
+        "ETH/USDT",
+        "LTC/USDT",
+        "XRP/USDT",
+        "NEO/USDT",
+        "TKN/USDT",
+    ]
+    assert freqtrade.pairlists.whitelist == ["ADA/USDT"]
+    assert freqtrade.active_pair_whitelist == ["ADA/USDT"]
+
+
 def test_process_informative_pairs_added(default_conf_usdt, ticker_usdt, mocker) -> None:
     patch_RPCManager(mocker)
     patch_exchange(mocker)

@@ -23,10 +23,17 @@ logger = logging.getLogger(__name__)
 
 
 class PairListManager(LoggingMixin):
-    def __init__(self, exchange, config: Config, dataprovider: DataProvider | None = None) -> None:
+    def __init__(
+        self,
+        exchange,
+        config: Config,
+        dataprovider: DataProvider | None = None,
+        pair_whitelist: list[str] | None = None,
+    ) -> None:
         self._exchange = exchange
         self._config = config
-        self._whitelist = self._config["exchange"].get("pair_whitelist")
+        self._pair_whitelist = pair_whitelist or self._config["exchange"].get("pair_whitelist")
+        self._whitelist = self._pair_whitelist
         self._blacklist = self._config["exchange"].get("pair_blacklist", [])
         self._pairlist_handlers: list[IPairList] = []
         self._tickers_needed = False
@@ -97,6 +104,11 @@ class PairListManager(LoggingMixin):
     def whitelist(self) -> list[str]:
         """The current whitelist"""
         return self._whitelist
+
+    @property
+    def pair_whitelist(self) -> list[str]:
+        """Whitelist configured for this manager"""
+        return self._pair_whitelist
 
     @property
     def blacklist(self) -> list[str]:

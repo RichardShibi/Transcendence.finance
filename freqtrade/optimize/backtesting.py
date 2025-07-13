@@ -152,13 +152,15 @@ class Backtesting:
             for strat in list(self.config["strategy_list"]):
                 stratconf = deepcopy(self.config)
                 stratconf["strategy"] = strat
-                self.strategylist.append(StrategyResolver.load_strategy(stratconf))
-                validate_config_consistency(stratconf)
+                loaded_strat = StrategyResolver.load_strategy(stratconf)
+                self.strategylist.append(loaded_strat)
+                validate_config_consistency(stratconf, strategy=loaded_strat)
 
         else:
             # No strategy list specified, only one strategy
-            self.strategylist.append(StrategyResolver.load_strategy(self.config))
-            validate_config_consistency(self.config)
+            loaded_strat = StrategyResolver.load_strategy(self.config)
+            self.strategylist.append(loaded_strat)
+            validate_config_consistency(self.config, strategy=loaded_strat)
 
         if "timeframe" not in self.config:
             raise OperationalException(
