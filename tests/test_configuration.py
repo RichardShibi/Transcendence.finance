@@ -32,6 +32,7 @@ from freqtrade.configuration.load_config import (
 from freqtrade.constants import DEFAULT_DB_DRYRUN_URL, DEFAULT_DB_PROD_URL, ENV_VAR_PREFIX
 from freqtrade.enums import RunMode
 from freqtrade.exceptions import ConfigurationError, OperationalException
+from freqtrade.resolvers.strategy_resolver import StrategyResolver
 from tests.conftest import (
     CURRENT_TEST_STRATEGY,
     log_has,
@@ -768,7 +769,8 @@ def test_validate_whitelist(default_conf):
     del conf["exchange"]["pair_whitelist"]
     # Test error case
     with pytest.raises(
-        OperationalException, match="StaticPairList requires pair_whitelist to be set."
+        OperationalException,
+        match="StaticPairList requires pair_whitelist to be set in config or strategy.",
     ):
         validate_config_consistency(conf)
 
@@ -788,6 +790,13 @@ def test_validate_whitelist(default_conf):
     del conf["exchange"]["pair_whitelist"]
 
     validate_config_consistency(conf)
+
+    # Strategy-defined pair whitelist should satisfy validation
+    conf = deepcopy(default_conf)
+    conf["strategy"] = "PairWhitelistStrategy"
+    del conf["exchange"]["pair_whitelist"]
+    strat = StrategyResolver.load_strategy(conf)
+    validate_config_consistency(conf, strategy=strat)
 
 
 def test_validate_ask_orderbook(default_conf, caplog) -> None:

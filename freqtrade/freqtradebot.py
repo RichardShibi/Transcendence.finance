@@ -96,7 +96,7 @@ class FreqtradeBot(LoggingMixin):
         self.strategy: IStrategy = StrategyResolver.load_strategy(self.config)
 
         # Check config consistency here since strategies can set certain options
-        validate_config_consistency(config)
+        validate_config_consistency(config, strategy=self.strategy)
 
         self.exchange = ExchangeResolver.load_exchange(
             self.config, exchange_config=exchange_config, load_leverage_tiers=True
@@ -120,7 +120,12 @@ class FreqtradeBot(LoggingMixin):
         self.rpc: RPCManager = RPCManager(self)
 
         self.dataprovider = DataProvider(self.config, self.exchange, rpc=self.rpc)
-        self.pairlists = PairListManager(self.exchange, self.config, self.dataprovider)
+        self.pairlists = PairListManager(
+            self.exchange,
+            self.config,
+            self.dataprovider,
+            pair_whitelist=getattr(self.strategy, "pair_whitelist", None),
+        )
 
         self.dataprovider.add_pairlisthandler(self.pairlists)
 

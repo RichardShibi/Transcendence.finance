@@ -136,7 +136,6 @@ class IStrategy(ABC, HyperStrategyMixin):
     wallets: Wallets | None = None
     # Filled from configuration
     stake_currency: str
-    # List of pairs this strategy trades. Overrides configuration when not empty
     pair_whitelist: list[str] = []
     # container variable for strategy source code
     __source__: str = ""

@@ -4,6 +4,7 @@ from copy import deepcopy
 from fastapi import APIRouter, Depends, HTTPException
 
 from freqtrade.configuration import validate_config_consistency
+from freqtrade.resolvers.strategy_resolver import StrategyResolver
 from freqtrade.rpc.api_server.api_pairlists import handleExchangePayload
 from freqtrade.rpc.api_server.api_schemas import PairHistory, PairHistoryRequest
 from freqtrade.rpc.api_server.deps import get_config, get_exchange
@@ -36,7 +37,8 @@ def pair_history(
             "freqaimodel": freqaimodel if freqaimodel else config_loc.get("freqaimodel"),
         }
     )
-    validate_config_consistency(config_loc)
+    strat = StrategyResolver.load_strategy(config_loc)
+    validate_config_consistency(config_loc, strategy=strat)
     try:
         return RPC._rpc_analysed_history_full(config_loc, pair, timeframe, exchange, None, False)
     except Exception as e:
@@ -61,7 +63,8 @@ def pair_history_filtered(payload: PairHistoryRequest, config=Depends(get_config
     handleExchangePayload(payload, config_loc)
     exchange = get_exchange(config_loc)
 
-    validate_config_consistency(config_loc)
+    strat = StrategyResolver.load_strategy(config_loc)
+    validate_config_consistency(config_loc, strategy=strat)
 
     try:
         return RPC._rpc_analysed_history_full(

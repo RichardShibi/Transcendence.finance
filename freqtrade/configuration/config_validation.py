@@ -18,6 +18,7 @@ from freqtrade.configuration.deprecated_settings import process_deprecated_setti
 from freqtrade.constants import UNLIMITED_STAKE_AMOUNT
 from freqtrade.enums import RunMode, TradingMode
 from freqtrade.exceptions import ConfigurationError
+from freqtrade.strategy.interface import IStrategy
 
 
 logger = logging.getLogger(__name__)
@@ -69,12 +70,16 @@ def validate_config_schema(conf: dict[str, Any], preliminary: bool = False) -> d
         raise ValidationError(best_match(Draft4Validator(conf_schema).iter_errors(conf)).message)
 
 
-def validate_config_consistency(conf: dict[str, Any], *, preliminary: bool = False) -> None:
+
+def validate_config_consistency(
+    conf: dict[str, Any], *, preliminary: bool = False, strategy: IStrategy | None = None
+) -> None:
     """
     Validate the configuration consistency.
-    Should be ran after loading both configuration and strategy,
+    Should be run after loading both configuration and strategy,
     since strategies can set certain configuration settings too.
     :param conf: Config in JSON format
+    :param strategy: Loaded strategy instance (optional)
     :return: Returns None if everything is ok, otherwise throw an ConfigurationError
     """
 
@@ -82,7 +87,7 @@ def validate_config_consistency(conf: dict[str, Any], *, preliminary: bool = Fal
     _validate_trailing_stoploss(conf)
     _validate_price_config(conf)
     _validate_edge(conf)
-    _validate_whitelist(conf)
+    _validate_whitelist(conf, strategy=strategy)
     _validate_unlimited_amount(conf)
     _validate_ask_orderbook(conf)
     _validate_freqai_hyperopt(conf)
@@ -168,10 +173,9 @@ def _validate_edge(conf: dict[str, Any]) -> None:
         )
 
 
-def _validate_whitelist(conf: dict[str, Any]) -> None:
-    """
-    Dynamic whitelist does not require pair_whitelist to be set - however StaticWhitelist does.
-    """
+def _validate_whitelist(conf: dict[str, Any], *, strategy: IStrategy | None = None) -> None:
+    """Validate that required whitelists are defined either in config or strategy."""
+
     if conf.get("runmode", RunMode.OTHER) in [
         RunMode.OTHER,
         RunMode.PLOT,
@@ -180,13 +184,15 @@ def _validate_whitelist(conf: dict[str, Any]) -> None:
     ]:
         return
 
+    strategy_wl = getattr(strategy, "pair_whitelist", None) if strategy else None
+
+    pair_whitelist = strategy_wl or conf.get("exchange", {}).get("pair_whitelist")
+
     for pl in conf.get("pairlists", [{"method": "StaticPairList"}]):
-        if (
-            isinstance(pl, dict)
-            and pl.get("method") == "StaticPairList"
-            and not conf.get("exchange", {}).get("pair_whitelist")
-        ):
-            raise ConfigurationError("StaticPairList requires pair_whitelist to be set.")
+        if isinstance(pl, dict) and pl.get("method") == "StaticPairList" and not pair_whitelist:
+            raise ConfigurationError(
+                "StaticPairList requires pair_whitelist to be set in config or strategy."
+            )
 
 
 def _validate_ask_orderbook(conf: dict[str, Any]) -> None:
