@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from freqtrade.configuration import TimeRange
+from freqtrade.configuration.timerange import TimeRange
 from freqtrade.constants import Config
 from freqtrade.data.btanalysis import (
     analyze_trade_parallelism,

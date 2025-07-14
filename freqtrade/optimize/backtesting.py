@@ -13,7 +13,8 @@ from numpy import isnan, nan
 from pandas import DataFrame, Series
 
 from freqtrade import constants
-from freqtrade.configuration import TimeRange, validate_config_consistency
+from freqtrade.configuration import validate_config_consistency
+from freqtrade.configuration.timerange import TimeRange
 from freqtrade.constants import DATETIME_PRINT_FORMAT, Config, IntOrInf, LongShort
 from freqtrade.data import history
 from freqtrade.data.btanalysis import (

@@ -10,7 +10,7 @@ import joblib
 import pandas as pd
 import pytest
 
-from freqtrade.configuration import TimeRange
+from freqtrade.configuration.timerange import TimeRange
 from freqtrade.constants import BACKTEST_BREAKDOWNS, DATETIME_PRINT_FORMAT, LAST_BT_RESULT_FN
 from freqtrade.data import history
 from freqtrade.data.btanalysis import (

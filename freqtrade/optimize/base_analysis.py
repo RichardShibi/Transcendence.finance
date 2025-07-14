@@ -5,7 +5,7 @@ from typing import Any
 
 from pandas import DataFrame
 
-from freqtrade.configuration import TimeRange
+from freqtrade.configuration.timerange import TimeRange
 
 
 logger = logging.getLogger(__name__)

@@ -12,7 +12,7 @@ import pytest
 from pandas import DataFrame
 from pandas.testing import assert_frame_equal
 
-from freqtrade.configuration import TimeRange
+from freqtrade.configuration.timerange import TimeRange
 from freqtrade.constants import DATETIME_PRINT_FORMAT
 from freqtrade.data.converter import ohlcv_to_dataframe
 from freqtrade.data.history import get_datahandler

@@ -6,7 +6,7 @@ from zipfile import ZipFile
 import pytest
 from pandas import DataFrame, DateOffset, Timestamp, to_datetime
 
-from freqtrade.configuration import TimeRange
+from freqtrade.configuration.timerange import TimeRange
 from freqtrade.constants import LAST_BT_RESULT_FN
 from freqtrade.data.btanalysis import (
     BT_DATA_COLUMNS,
